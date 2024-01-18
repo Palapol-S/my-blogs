@@ -1,0 +1,47 @@
+nav {
+  width: 250px;
+  min-width: 250px;
+  padding: 4px;
+  align-self: flex-start;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 48px;
+  max-height: calc(100vh - 70px);
+  overflow: auto;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav ul li {
+  margin-bottom: 4px;
+  padding: 0;
+}
+
+/* Styled Link */
+nav ul li a {
+  text-decoration: none;
+  display: block;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect */
+nav ul li a:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Bullet points */
+nav ul li a::before {
+  content: "\2022";
+  display: inline-block;
+  width: 1em;
+  margin-right: 8px;
+}
+
+nav ul li a.active {
+  background-color: rgba(0, 0, 0, 0.1); /* Highlight color for active item */
+}
