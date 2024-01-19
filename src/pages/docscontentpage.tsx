@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Navbar, Footer, DocsContent } from "../components";
+import { Navbar, /* Footer, */ DocsContent } from "../components";
 /* import TableOfContent from "../components/toc"; */
 import Sidebars from "../components/Sidebars";
 
@@ -37,7 +37,7 @@ class DocsContentPage extends Component<DocsContentPageProps, DocsContentPageSta
           <DocsContent documents={documents ? documents : { data: [] }} />
           {/* <TableOfContent documents={documents ? documents : { data: [] }}/> */}
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   }

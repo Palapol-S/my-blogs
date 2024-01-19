@@ -12,6 +12,9 @@ interface Document {
   attributes: {
     Title: string;
     Documentation: string;
+    Tags: string;
+    Submenu: boolean;
+    SubTag: string;
   };
 }
 
@@ -38,7 +41,7 @@ const DocsContent: React.FC<DocsContentProps> = ({ documents }) => {
     (document) => document.id === Number(id)
   );
 
-  const toc: { id: string; title: string }[] = [];
+  const toc: { id: string; title: string; level: number }[] = [];
   const processedData = filteredData?.map((document) => {
     const processedDocument = unified()
       .use(rehypeParse, {
@@ -48,13 +51,16 @@ const DocsContent: React.FC<DocsContentProps> = ({ documents }) => {
         return (tree) => {
           visit(tree, "element", (node) => {
             const elementNode = node as ElementNode;
-            if (elementNode.tagName === "h2") {
+            const tagName = elementNode.tagName.toLowerCase();
+            // Check if the tag is h1, h2, h3, or h4
+            if (["h1", "h2", "h3", "h4"].includes(tagName)) {
               const rawTitle = elementNode.children[0].value;
               const id = rawTitle.toLowerCase().replace(/\s+/g, "-");
               elementNode.properties.id = id;
               toc.push({
                 id,
                 title: rawTitle,
+                level: parseInt(tagName.slice(1)),
               });
             }
           });
@@ -91,12 +97,12 @@ const DocsContent: React.FC<DocsContentProps> = ({ documents }) => {
     );
 
     // Observe headings when the component mounts or the page changes
-    document.querySelectorAll("h2[id]").forEach((heading) => {
+    document.querySelectorAll("h1[id], h2[id], h3[id], h4[id]").forEach((heading) => {
       observer.observe(heading);
     });
 
     return () => {
-      document.querySelectorAll("h2[id]").forEach((heading) => {
+      document.querySelectorAll("h1[id], h2[id], h3[id], h4[id]").forEach((heading) => {
         observer.unobserve(heading);
       });
     };
@@ -159,14 +165,15 @@ const DocsContent: React.FC<DocsContentProps> = ({ documents }) => {
         <div className="lg:col-span-1">
           <nav ref={tocRef}>
             <ul>
-              {toc.map(({ id, title }) => (
-                <li key={id}>
+              {toc.map(({ id, title, level }) => (
+                <li key={id} style={{ marginLeft: `${(level - 2) * 20}px` }}>
                   <a
                     href={`#${id}`}
                     onClick={(e) => {
                       e.preventDefault();
                       scrollToHeading(id);
                     }}
+                    className={id === activeSection ? "active" : ""}
                   >
                     {title}
                   </a>

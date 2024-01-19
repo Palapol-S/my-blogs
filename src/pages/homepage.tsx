@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Navbar, Blogs, Footer } from "../components";
+import { Navbar, Blogs, /* Footer */ } from "../components";
 
 interface Blog {
   id: number;
@@ -44,7 +44,7 @@ class Homepage extends Component<HomepageProps> {
       <div>
         <Navbar />
         <Blogs blogs={blogs ? blogs : { data: [] }} />
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   }

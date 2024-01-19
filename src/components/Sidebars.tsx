@@ -41,14 +41,21 @@ class SidebarItem extends Component<SidebarItemProps, SidebarItemState> {
   render() {
     const { items } = this.props;
     const { open } = this.state;
+    const isSubmenu = items[0].attributes.Submenu;
 
     return (
-      <div className={items[0].attributes.Submenu ? (open ? 'sidebar-item open' : 'sidebar-item') : 'sidebar-item'}>
-        <div className="sidebar-title" onClick={items[0].attributes.Submenu ? this.toggleOpen : undefined}>
-          <span>{items[0].attributes.Tags}</span>
-          {items[0].attributes.Submenu && <i className="bi-chevron-down toggle-btn"></i>}
-        </div>
-        {items[0].attributes.Submenu && open && (
+      <div className={isSubmenu ? (open ? 'sidebar-item open' : 'sidebar-item') : 'sidebar-item'}>
+        {isSubmenu ? (
+          <div className="sidebar-title" onClick={this.toggleOpen}>
+            <span>{items[0].attributes.Tags}</span>
+            {isSubmenu && <i className="bi-chevron-down toggle-btn"></i>}
+          </div>
+        ) : (
+          <Link to={`/document/${items[0].id}`} className="sidebar-title">
+            {items[0].attributes.Tags}
+          </Link>
+        )}
+        {isSubmenu && open && (
           <div className="sidebar-content">
             {items.map((item, index) => (
               <Link key={index} to={`/document/${item.id}`} className="sidebar-link">
@@ -56,11 +63,6 @@ class SidebarItem extends Component<SidebarItemProps, SidebarItemState> {
               </Link>
             ))}
           </div>
-        )}
-        {!items[0].attributes.Submenu && (
-          <Link to={`/document/${items[0].id}`} className="sidebar-link">
-            {items[0].attributes.Tags}
-          </Link>
         )}
       </div>
     );
@@ -70,7 +72,7 @@ class SidebarItem extends Component<SidebarItemProps, SidebarItemState> {
 class Sidebar extends Component<SidebarProps> {
   render() {
     const { documents } = this.props;
-
+    console.log(this.props);
     const groupedData: { [tag: string]: Document[] } = {};
 
     documents?.data.forEach((document) => {
@@ -82,12 +84,10 @@ class Sidebar extends Component<SidebarProps> {
       }
     });
 
-    const groupedDocuments: Document[] = Object.values(groupedData).flatMap((group) => group);
-
     return (
       <div className="sidebar">
-        {groupedDocuments.map((document, index) => (
-          <SidebarItem key={index} items={groupedData[document.attributes.Tags]} />
+        {Object.keys(groupedData).map((tag, index) => (
+          <SidebarItem key={index} items={groupedData[tag]} />
         ))}
       </div>
     );

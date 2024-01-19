@@ -1,3 +1,4 @@
+//unused component right now
 import { Component } from "react";
 import "../styles/tableOfContent.css";
 import { unified } from "unified";

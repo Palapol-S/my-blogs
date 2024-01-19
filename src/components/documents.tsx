@@ -1,3 +1,4 @@
+//this code is unused right now it can be home page of the document
 import React, { Component } from "react";
 import { Text } from "@mantine/core";
 import { unified } from "unified";
@@ -11,6 +12,8 @@ interface Document {
     Title: string;
     Documentation: string;
     Tags: string;
+    Submenu : boolean;
+    SubTag: string;
   };
 }
 

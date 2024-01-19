@@ -1,5 +1,6 @@
+//unused page
 import { Component } from "react";
-import { Navbar, Footer, Documents } from "../components";
+import { Navbar, /* Footer, */ Documents } from "../components";
 //import TableOfContent from "../components/toc";
 import Sidebars from "../components/Sidebars";
 
@@ -37,7 +38,7 @@ class DocumentPage extends Component<DocumentPageProps, DocumentPageState> {
           <Documents documents={documents ? documents : { data: [] }} />
           {/* <TableOfContent documents={documents ? documents : { data: [] }}/> */}
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   }

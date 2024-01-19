@@ -1,4 +1,4 @@
-import {
+/* import {
   FaFacebook,
   FaGithub,
   FaInstagram,
@@ -79,4 +79,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default Footer; */

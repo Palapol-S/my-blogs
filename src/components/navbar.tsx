@@ -23,7 +23,7 @@ const Navbar = () => {
               <Link to="/">Blogs</Link>
             </li>
             <li>
-              <Link to="/document">Documents</Link>
+              <Link to="/document/1">Documents</Link>
             </li>
             <li>About</li>
           </ul>
@@ -52,7 +52,7 @@ const Navbar = () => {
           <Link to="/">Blogs</Link>
         </li>
         <li>
-          <Link to="/document">Documents</Link>
+          <Link to="/document/1">Documents</Link>
         </li>
         <li>About</li>
         <div className="flex flex-col my-4">
