@@ -1,18 +1,13 @@
 import React from "react";
 import { useParams, Link, useLocation } from "react-router-dom";
 import { Image, Card, Button, Text } from "@mantine/core";
+import { IconEdit } from "@tabler/icons-react";
+import { optionDate } from "../functions/date";
 
 interface Blog {
   id: number;
   attributes: {
     Image: {
-      data: {
-        attributes: {
-          url: string;
-        };
-      };
-    };
-    authorImage: {
       data: {
         attributes: {
           url: string;
@@ -30,6 +25,9 @@ interface Blog {
     ReadTime: string;
     createdAt: string;
     Blogs: string;
+    Tags: string;
+    SecondTags: string;
+    ThirdTags: string;
   };
 }
 
@@ -39,9 +37,7 @@ interface BlogContentProps {
 
 const BlogContent: React.FC<BlogContentProps> = ({ blogs }) => {
   const { id } = useParams<{ id: string }>();
-
   const location = useLocation();
-
   let blog: Blog | undefined = undefined;
 
   if (blogs.data) {
@@ -53,88 +49,114 @@ const BlogContent: React.FC<BlogContentProps> = ({ blogs }) => {
     console.log({ state: location.state });
   }
 
-  console.log("BlogContentPage");
-  console.log(blog);
-
   return (
-    <div className="w-full pb-10 bg-[#f9f9f9]">
-      <div className="max-w-[1240px] mx-auto p-4">
+    <div className="max-w-2xl mx-auto px-4 mt-8">
+      <div className="mb-8 mt-8">
+        <Text size="xl" fw={500} className="font-bold text-3xl mb-4">
+          {blog?.attributes.Title}
+        </Text>
         <div
-          className="grid lg:grid-cols-4 sm:grid-cols-3 ss:grid-cols-1
-                md:gap-8 sm:gap-y-8 ss:gap-y-8 px-4 sm:pt-20 md:mt-0 ss:pt-20 text-black"
-        >
-          <div className="col-span-3">
-            <Card>
-              <Card.Section inheritPadding py="xs">
-                <Image
-                  className="h-fit lg:h-72 sm:h-56 ss:h-48 w-full object-cover border rounded-md"
-                  src={null}
-                  decoding="async"
-                  fallbackSrc={`http://localhost:1337${blog?.attributes.Image.data.attributes.url}`}
-                  alt="Image"
-                />
-              </Card.Section>
-              <Card.Section
-                inheritPadding
-                py="xs"
-                style={{ background: "#ffffff" }}
-              >
-                <Text
-                  size="lg"
-                  fw={500}
-                  className="font-bold text-2xl md:text-xl sm:text-lg ss:text-md my-1 p-4"
-                >
-                  {blog?.attributes.Title}
-                </Text>
-                <div className="pt-2">
-                  <div
-                  //index.css className markdown all: revert
-                  className="markdown indent-10 line-break text-justify p-4" 
-                  dangerouslySetInnerHTML={{ __html: blog?.attributes.Blogs ?? ''}} 
-                  />
-                </div>
-              </Card.Section>
-            </Card>
-          </div>
-          <div className="col-span-1">
-            <div className="items-center w-full bg-white rounded-x1 drop-shadow-md py-5 p-4 md:px-6 max-h-[250px]">
-              <div className="text-center">
+          className="markdown text-justify text-xl mb-2"
+          dangerouslySetInnerHTML={{
+            __html: blog?.attributes.Description ?? "",
+          }}
+        />
+      </div>
+      <div className="mt-8">
+        <Card shadow="sm">
+          <Card.Section
+            inheritPadding
+            py="sm"
+            style={{ background: "#ffffff" }}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
                 <img
-                  className="p-2 w-32 h-32 rounded-full mx-auto object-cover"
+                  className="w-10 h-10 rounded-full object-cover mr-4"
+                  src="https://placekitten.com/100/100"
+                  alt="Author"
                 />
-                <h1 className="font-bold text-2xl text-center text-gray-900 pt-3 md:text-xl">
-                  {blog?.attributes.createdBy.firstname}{" "}
-                  {blog?.attributes.createdBy.lastname}
-                </h1>
+                <div>
+                  <h3 className="font-bold text-lg">
+                    {blog?.attributes.createdBy.firstname}{" "}
+                    {blog?.attributes.createdBy.lastname}
+                  </h3>
+                  <p className="text-gray-600">
+                    Published on{" "}
+                    {blog?.attributes.createdAt
+                      ? optionDate.format(new Date(blog.attributes.createdAt))
+                      : "Unknown Date"}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <Button
+                  className="content-manager"
+                  id="edit"
+                  onClick={() =>
+                    window.open(
+                      "http://localhost:1337/admin/content-manager/collectionType/api::blog.blog?page=1&pageSize=10&sort=id:ASC",
+                      "_blank"
+                    )
+                  }
+                >
+                  <IconEdit />
+                </Button>
               </div>
             </div>
-            <div className="mt-10 items-center w-full bg-white rounded-x1 drop-shadow-md py-5 p-4 md:px-6 max-h-[250px]">
-              <div className="text-center">
-                <h1 className="font-bold text-2xl text-center text-gray-900 pt-3 md:text-xl">
-                  
-                </h1>
-              </div>
+          </Card.Section>
+        </Card>
+      </div>
+      <div className="mb-4 mt-4 border-b"></div>
+      <div className="mb-8 mt-8">
+        <Image
+          className="w-full h-64 object-cover rounded-md"
+          src={`http://localhost:1337${blog?.attributes.Image.data.attributes.url}`}
+          alt="Blog Image"
+        />
+      </div>
+      <div>
+        <div
+          className="markdown text-justify"
+          dangerouslySetInnerHTML={{
+            __html: blog?.attributes.Blogs ?? "",
+          }}
+        />
+      </div>
+      <div className="mb-4 mt-4 border-b"></div>
+      <div className="mt-8">
+        <div className="flex space-x-4 items-center">
+          {blog?.attributes.Tags && (
+            <div className="bg-gray-200 px-3 py-1 rounded-full">
+              {blog?.attributes.Tags}
             </div>
-          </div>
+          )}
+          {blog?.attributes.SecondTags && (
+            <div className="bg-gray-200 px-3 py-1 rounded-full">
+              {blog?.attributes.SecondTags}
+            </div>
+          )}
+          {blog?.attributes.ThirdTags && (
+            <div className="bg-gray-200 px-3 py-1 rounded-full">
+              {blog?.attributes.ThirdTags}
+            </div>
+          )}
+          <Link to="/" className="flex items-center text-gray-500">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 mr-1"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M6.293 6.293a1 1 0 011.414 0L10 8.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Back
+          </Link>
         </div>
-      </div>
-      <div className="flex justify-center mt-4">
-        <Link to="/">
-          <Button className="back-button">Back</Button>
-        </Link>
-      </div>
-      <div className="flex justify-center mt-4">
-        <Button
-          className="content-manager"
-          onClick={() =>
-            window.open(
-              "http://localhost:1337/admin/content-manager/collectionType/api::blog.blog?page=1&pageSize=10&sort=id:ASC",
-              "_blank"
-            )
-          }
-        >
-          Edit
-        </Button>
       </div>
     </div>
   );

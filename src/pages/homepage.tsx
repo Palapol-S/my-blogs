@@ -11,13 +11,6 @@ interface Blog {
         };
       };
     };
-    authorImage: {
-      data: {
-        attributes: {
-          url: string;
-        };
-      };
-    };
     createdBy: {
       id: number;
       firstname: string;
@@ -29,6 +22,10 @@ interface Blog {
     ReadTime: string;
     createdAt: string;
     Blogs: string;
+    Tags: string;
+    SecondTags: string;
+    ThirdTags: string;
+    views: number;
   };
 }
 

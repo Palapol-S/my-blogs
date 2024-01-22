@@ -1,6 +1,7 @@
-import { Component } from 'react';
-import { Link } from 'react-router-dom';
-import '../styles/sidebar.css'; // Import the CSS file
+import { Component } from "react";
+import { Link } from "react-router-dom";
+import "../styles/sidebar.css";
+import { IconArrowDown } from "@tabler/icons-react";
 
 interface Document {
   id: number;
@@ -44,11 +45,19 @@ class SidebarItem extends Component<SidebarItemProps, SidebarItemState> {
     const isSubmenu = items[0].attributes.Submenu;
 
     return (
-      <div className={isSubmenu ? (open ? 'sidebar-item open' : 'sidebar-item') : 'sidebar-item'}>
+      <div
+        className={
+          isSubmenu
+            ? open
+              ? "sidebar-item open"
+              : "sidebar-item"
+            : "sidebar-item"
+        }
+      >
         {isSubmenu ? (
           <div className="sidebar-title" onClick={this.toggleOpen}>
             <span>{items[0].attributes.Tags}</span>
-            {isSubmenu && <i className="bi-chevron-down toggle-btn"></i>}
+            {isSubmenu && <IconArrowDown className="toggle-btn" />}
           </div>
         ) : (
           <Link to={`/document/${items[0].id}`} className="sidebar-title">
@@ -58,7 +67,11 @@ class SidebarItem extends Component<SidebarItemProps, SidebarItemState> {
         {isSubmenu && open && (
           <div className="sidebar-content">
             {items.map((item, index) => (
-              <Link key={index} to={`/document/${item.id}`} className="sidebar-link">
+              <Link
+                key={index}
+                to={`/document/${item.id}`}
+                className="sidebar-link"
+              >
                 {item.attributes.SubTag}
               </Link>
             ))}

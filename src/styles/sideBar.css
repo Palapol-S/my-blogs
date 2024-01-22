@@ -15,10 +15,6 @@
   border-radius: 5px;
 }
 
-/* .sidebar-item:hover {
-  background-color: rgba(0, 0, 0, 0.1);
-} */
-
 .sidebar-title {
   display: flex;
   font-size: 1.4em;
@@ -45,7 +41,6 @@
 }
 
 .sidebar-content {
-  
   height: 0;
   overflow: hidden;
   font-size: smaller;
@@ -80,11 +75,10 @@
   color: red;
 }
 
-/* Add this to your CSS stylesheet */
 .sidebar-title.selected {
-  color: red; /* Add your preferred background color */
+  color: red;
 }
 
 .sidebar-link.selected {
-  color: red; /* Add your preferred background color */
+  color: red;
 }
