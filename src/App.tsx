@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Homepage, BlogContentPage, DocumentPage, DocsContentPage} from "./pages";
+import { Homepage, BlogContentPage, DocumentPage, DocsContentPage, BlogTagPage} from "./pages";
 
 interface AppProps {}
 
@@ -54,6 +54,7 @@ class App extends Component<AppProps, AppState> {
           />
           <Route path="/document" element={<DocumentPage documents={documentData ? documentData : ""} />} />
           <Route path="/document/:id" element={<DocsContentPage documents={documentData ? documentData : ""} />} />
+          <Route path="/blog/tag/:tag" element={<BlogTagPage blogs={blogData ? blogData : ""} />} />
         </Routes>
       </div>
     );

@@ -127,19 +127,28 @@ const BlogContent: React.FC<BlogContentProps> = ({ blogs }) => {
       <div className="mt-8">
         <div className="flex space-x-4 items-center">
           {blog?.attributes.Tags && (
-            <div className="bg-gray-200 px-3 py-1 rounded-full">
+            <Link
+              to={`/blog/tag/${blog.attributes.Tags}`}
+              className="bg-gray-200 px-3 py-1 rounded-full"
+            >
               {blog?.attributes.Tags}
-            </div>
+            </Link>
           )}
           {blog?.attributes.SecondTags && (
-            <div className="bg-gray-200 px-3 py-1 rounded-full">
+            <Link
+              to={`/blog/tag/${blog.attributes.SecondTags}`}
+              className="bg-gray-200 px-3 py-1 rounded-full"
+            >
               {blog?.attributes.SecondTags}
-            </div>
+            </Link>
           )}
           {blog?.attributes.ThirdTags && (
-            <div className="bg-gray-200 px-3 py-1 rounded-full">
+            <Link
+              to={`/blog/tag/${blog.attributes.ThirdTags}`}
+              className="bg-gray-200 px-3 py-1 rounded-full"
+            >
               {blog?.attributes.ThirdTags}
-            </div>
+            </Link>
           )}
           <Link to="/" className="flex items-center text-gray-500">
             <svg

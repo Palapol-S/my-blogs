@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 import "../styles/sidebar.css";
-import { IconArrowDown } from "@tabler/icons-react";
+import { IconArrowRight } from "@tabler/icons-react";
 
 interface Document {
   id: number;
@@ -26,11 +26,13 @@ interface SidebarItemProps {
 
 interface SidebarItemState {
   open: boolean;
+  selectedItemId: number | null;
 }
 
 class SidebarItem extends Component<SidebarItemProps, SidebarItemState> {
   state: SidebarItemState = {
     open: false,
+    selectedItemId: null,
   };
 
   toggleOpen = () => {
@@ -39,9 +41,15 @@ class SidebarItem extends Component<SidebarItemProps, SidebarItemState> {
     }));
   };
 
+  handleItemClick = (itemId: number) => {
+    this.setState({
+      selectedItemId: itemId,
+    });
+  };
+
   render() {
     const { items } = this.props;
-    const { open } = this.state;
+    const { open, selectedItemId } = this.state;
     const isSubmenu = items[0].attributes.Submenu;
 
     return (
@@ -56,11 +64,20 @@ class SidebarItem extends Component<SidebarItemProps, SidebarItemState> {
       >
         {isSubmenu ? (
           <div className="sidebar-title" onClick={this.toggleOpen}>
-            <span>{items[0].attributes.Tags}</span>
-            {isSubmenu && <IconArrowDown className="toggle-btn" />}
+            <span
+              onClick={() => this.handleItemClick(items[0].id)}
+              className={selectedItemId === items[0].id ? "selected" : ""}
+            >
+              {items[0].attributes.Tags}
+            </span>
+            {isSubmenu && <IconArrowRight className="toggle-btn" />}
           </div>
         ) : (
-          <Link to={`/document/${items[0].id}`} className="sidebar-title">
+          <Link
+            to={`/document/${items[0].id}`}
+            className={`sidebar-title ${selectedItemId === items[0].id ? "selected" : ""}`}
+            onClick={() => this.handleItemClick(items[0].id)}
+          >
             {items[0].attributes.Tags}
           </Link>
         )}
@@ -70,7 +87,8 @@ class SidebarItem extends Component<SidebarItemProps, SidebarItemState> {
               <Link
                 key={index}
                 to={`/document/${item.id}`}
-                className="sidebar-link"
+                className={`sidebar-link ${selectedItemId === item.id ? "selected" : ""}`}
+                onClick={() => this.handleItemClick(item.id)}
               >
                 {item.attributes.SubTag}
               </Link>

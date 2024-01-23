@@ -37,7 +37,7 @@
 }
 
 .sidebar-item.open > .sidebar-title .toggle-btn {
-  transform: rotate(180deg);
+  transform: rotate(90deg);
 }
 
 .sidebar-content {
@@ -48,19 +48,6 @@
 
 .sidebar-item.open > .sidebar-content {
   height: auto;
-}
-
-.sidebar-item.plain {
-  text-decoration: none;
-}
-
-.sidebar-item.plain:hover {
-  text-decoration: underline;
-}
-
-.sidebar-item.plain i {
-  display: inline-block;
-  width: 1.7em;
 }
 
 .sidebar-link {
@@ -75,10 +62,27 @@
   color: red;
 }
 
-.sidebar-title.selected {
-  color: red;
+@media screen and (max-width: 768px) {
+  .sidebar {
+    display: none; /* Hide the sidebar on smaller screens */
+  }
+
+  /* Optionally, you can adjust other styles for small screens */
+  .sidebar-title {
+    font-size: 1.2em;
+  }
+
+  .sidebar-link {
+    margin-top: 8px;
+    margin-left: 8px;
+    margin-bottom: 8px;
+  }
 }
 
+/* Add these styles to your existing CSS */
+
+
+.sidebar-title a.selected,
 .sidebar-link.selected {
-  color: red;
+  color: red; /* Add your preferred text color for selected items */
 }

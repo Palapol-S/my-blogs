@@ -52,7 +52,6 @@ const DocsContent: React.FC<DocsContentProps> = ({ documents }) => {
           visit(tree, "element", (node) => {
             const elementNode = node as ElementNode;
             const tagName = elementNode.tagName.toLowerCase();
-            // Check if the tag is h1, h2, h3, or h4
             if (["h1", "h2", "h3", "h4"].includes(tagName)) {
               const rawTitle = elementNode.children[0].value;
               const id = rawTitle.toLowerCase().replace(/\s+/g, "-");
@@ -76,13 +75,11 @@ const DocsContent: React.FC<DocsContentProps> = ({ documents }) => {
     };
   });
 
-  // Extract activeSection from the location hash when the page changes
   useEffect(() => {
     const hash = location.hash.substr(1);
     setActiveSection(hash);
   }, [location.hash]);
 
-  // Intersection Observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -96,7 +93,6 @@ const DocsContent: React.FC<DocsContentProps> = ({ documents }) => {
       { threshold: 0.5 }
     );
 
-    // Observe headings when the component mounts or the page changes
     document.querySelectorAll("h1[id], h2[id], h3[id], h4[id]").forEach((heading) => {
       observer.observe(heading);
     });
@@ -108,12 +104,10 @@ const DocsContent: React.FC<DocsContentProps> = ({ documents }) => {
     };
   }, [location, activeSection]);
 
-  // Scroll to top when switching between pages
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
 
-  // Scroll to heading when TOC item is clicked
   const scrollToHeading = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -123,7 +117,6 @@ const DocsContent: React.FC<DocsContentProps> = ({ documents }) => {
     }
   };
 
-  // Highlight active section in TOC
   useEffect(() => {
     if (tocRef.current) {
       const activeItem = tocRef.current.querySelector(
@@ -139,8 +132,8 @@ const DocsContent: React.FC<DocsContentProps> = ({ documents }) => {
   }, [activeSection]);
 
   return (
-    <div className="w-full pb-10 bg-[#f9f9f9]">
-      <div className="max-w-[1240px] mx-auto p-4 grid lg:grid-cols-4 gap-8">
+    <div className="w-full bg-[#f9f9f9]">
+      <div className="max-w-[1240px] mx-auto p-4 lg:grid lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3">
           <div>
             {processedData?.map((document) => (

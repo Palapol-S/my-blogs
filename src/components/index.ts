@@ -3,6 +3,7 @@ import Blogs from "./blogs";
 import BlogContent from "./blogcontent";
 import Documents from "./documents";
 import DocsContent from "./docscontent";
+import BlogTag from "./blogtag";
 
 export {
     Navbar,
@@ -10,4 +11,5 @@ export {
     BlogContent,
     Documents,
     DocsContent,
+    BlogTag,
 }

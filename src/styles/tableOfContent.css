@@ -31,7 +31,7 @@ nav ul li a {
 
 /* Hover effect */
 nav ul li a:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  color: rgb(235, 48, 48);
 }
 
 /* Bullet points */
@@ -43,5 +43,5 @@ nav ul li a::before {
 }
 
 nav ul li a.active {
-  background-color: rgba(0, 0, 0, 0.1); /* Highlight color for active item */
+  color: rgb(235, 48, 48); /* Highlight color for active item */
 }
