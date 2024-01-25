@@ -1,7 +1,7 @@
 import { Component } from "react";
-import { Link } from "react-router-dom";
-import "../styles/sidebar.css";
+import { NavLink } from "react-router-dom";
 import { IconArrowRight } from "@tabler/icons-react";
+import "../styles/sidebar.css";
 
 interface Document {
   id: number;
@@ -20,92 +20,33 @@ interface SidebarProps {
   };
 }
 
-interface SidebarItemProps {
-  items: Document[];
+interface SidebarState {
+  openItems: number[];
 }
 
-interface SidebarItemState {
-  open: boolean;
-  selectedItemId: number | null;
-}
-
-class SidebarItem extends Component<SidebarItemProps, SidebarItemState> {
-  state: SidebarItemState = {
-    open: false,
-    selectedItemId: null,
+class Sidebar extends Component<SidebarProps, SidebarState> {
+  state: SidebarState = {
+    openItems: [],
   };
 
-  toggleOpen = () => {
-    this.setState((prevState) => ({
-      open: !prevState.open,
-    }));
-  };
+  toggleOpen = (itemId: number) => {
+    this.setState((prevState) => {
+      const isOpen = prevState.openItems.includes(itemId);
+      const updatedOpenItems = isOpen
+        ? prevState.openItems.filter((id) => id !== itemId)
+        : [...prevState.openItems, itemId];
 
-  handleItemClick = (itemId: number) => {
-    this.setState({
-      selectedItemId: itemId,
+      return {
+        openItems: updatedOpenItems,
+      };
     });
   };
 
   render() {
-    const { items } = this.props;
-    const { open, selectedItemId } = this.state;
-    const isSubmenu = items[0].attributes.Submenu;
-
-    return (
-      <div
-        className={
-          isSubmenu
-            ? open
-              ? "sidebar-item open"
-              : "sidebar-item"
-            : "sidebar-item"
-        }
-      >
-        {isSubmenu ? (
-          <div className="sidebar-title" onClick={this.toggleOpen}>
-            <span
-              onClick={() => this.handleItemClick(items[0].id)}
-              className={selectedItemId === items[0].id ? "selected" : ""}
-            >
-              {items[0].attributes.Tags}
-            </span>
-            {isSubmenu && <IconArrowRight className="toggle-btn" />}
-          </div>
-        ) : (
-          <Link
-            to={`/document/${items[0].id}`}
-            className={`sidebar-title ${selectedItemId === items[0].id ? "selected" : ""}`}
-            onClick={() => this.handleItemClick(items[0].id)}
-          >
-            {items[0].attributes.Tags}
-          </Link>
-        )}
-        {isSubmenu && open && (
-          <div className="sidebar-content">
-            {items.map((item, index) => (
-              <Link
-                key={index}
-                to={`/document/${item.id}`}
-                className={`sidebar-link ${selectedItemId === item.id ? "selected" : ""}`}
-                onClick={() => this.handleItemClick(item.id)}
-              >
-                {item.attributes.SubTag}
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  }
-}
-
-class Sidebar extends Component<SidebarProps> {
-  render() {
     const { documents } = this.props;
-    console.log(this.props);
-    const groupedData: { [tag: string]: Document[] } = {};
+    const { openItems } = this.state;
 
+    const groupedData: { [tag: string]: Document[] } = {};
     documents?.data.forEach((document) => {
       const tag = document.attributes.Tags;
       if (groupedData[tag]) {
@@ -117,9 +58,50 @@ class Sidebar extends Component<SidebarProps> {
 
     return (
       <div className="sidebar">
-        {Object.keys(groupedData).map((tag, index) => (
-          <SidebarItem key={index} items={groupedData[tag]} />
-        ))}
+        {Object.keys(groupedData).map((tag, index) => {
+          const items = groupedData[tag];
+          const isSubmenu = items[0].attributes.Submenu;
+          const isOpen = openItems.includes(items[0].id);
+
+          return (
+            <div
+              key={index}
+              className={`sidebar-item${
+                isSubmenu ? (isOpen ? " open" : "") : ""
+              }`}
+            >
+              {isSubmenu ? (
+                <div
+                  className="sidebar-title"
+                  onClick={() => this.toggleOpen(items[0].id)}
+                >
+                  <span>{items[0].attributes.Tags}</span>
+                  {isSubmenu && <IconArrowRight className="toggle-btn" />}
+                </div>
+              ) : (
+                <NavLink
+                  to={`/document/${items[0].id}`}
+                  className="sidebar-title"
+                >
+                  {items[0].attributes.Tags}
+                </NavLink>
+              )}
+              {isSubmenu && isOpen && (
+                <div className="sidebar-content">
+                  {items.map((item, index) => (
+                    <NavLink
+                      key={index}
+                      to={`/document/${item.id}`}
+                      className="sidebar-link"
+                    >
+                      {item.attributes.SubTag}
+                    </NavLink>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     );
   }

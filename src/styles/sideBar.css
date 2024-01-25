@@ -9,10 +9,21 @@
 }
 
 .sidebar-item {
-  padding: 1em;
+  padding: 8px;
+  padding-left: 20px;
   display: block;
   transition: background-color 0.2s;
   border-radius: 5px;
+}
+
+.sidebar-content {
+  height: 0;
+  overflow: hidden;
+  font-size: smaller;
+}
+
+.sidebar-item.open > .sidebar-content {
+  height: auto;
 }
 
 .sidebar-title {
@@ -26,11 +37,6 @@
   color: red;
 }
 
-.sidebar-title span i {
-  display: inline-block;
-  width: 1.5em;
-}
-
 .sidebar-title .toggle-btn {
   cursor: pointer;
   transition: transform 0.3s;
@@ -40,21 +46,10 @@
   transform: rotate(90deg);
 }
 
-.sidebar-content {
-  height: 0;
-  overflow: hidden;
-  font-size: smaller;
-}
-
-.sidebar-item.open > .sidebar-content {
-  height: auto;
-}
-
 .sidebar-link {
   text-decoration: none;
-  margin-top: 16px;
-  margin-left: 16px;
-  margin-bottom: 16px;
+  margin-top: 8px;
+  margin-left: 12px;
   display: block;
 }
 
@@ -62,12 +57,16 @@
   color: red;
 }
 
+.sidebar-link.active,
+.sidebar-title.active {
+  color: red;
+}
+
 @media screen and (max-width: 768px) {
   .sidebar {
-    display: none; /* Hide the sidebar on smaller screens */
+    display: none;
   }
 
-  /* Optionally, you can adjust other styles for small screens */
   .sidebar-title {
     font-size: 1.2em;
   }
@@ -77,12 +76,4 @@
     margin-left: 8px;
     margin-bottom: 8px;
   }
-}
-
-/* Add these styles to your existing CSS */
-
-
-.sidebar-title a.selected,
-.sidebar-link.selected {
-  color: red; /* Add your preferred text color for selected items */
 }
