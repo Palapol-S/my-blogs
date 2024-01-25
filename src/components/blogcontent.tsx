@@ -50,7 +50,7 @@ const BlogContent: React.FC<BlogContentProps> = ({ blogs }) => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 mt-8">
+    <div className="max-w-2xl mx-auto px-4 mt-8 mb-8">
       <div className="mb-8 mt-8">
         <Text size="xl" fw={500} className="font-bold text-3xl mb-4">
           {blog?.attributes.Title}
@@ -150,21 +150,6 @@ const BlogContent: React.FC<BlogContentProps> = ({ blogs }) => {
               {blog?.attributes.ThirdTags}
             </Link>
           )}
-          <Link to="/" className="flex items-center text-gray-500">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 mr-1"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M6.293 6.293a1 1 0 011.414 0L10 8.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                clipRule="evenodd"
-              />
-            </svg>
-            Back
-          </Link>
         </div>
       </div>
     </div>
