@@ -90,7 +90,7 @@ const DocsContent: React.FC<DocsContentProps> = ({ documents }) => {
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.5, rootMargin: "0px 0px -85% 0px" }
     );
 
     document.querySelectorAll("h1[id], h2[id], h3[id], h4[id]").forEach((heading) => {
